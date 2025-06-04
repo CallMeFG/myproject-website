@@ -44,6 +44,12 @@
                 <a href="{{ route('admin.reservations.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 {{ request()->routeIs('admin.reservations.*') ? 'bg-gray-700' : '' }}">
                     Manajemen Reservasi
                 </a>
+                <a href="{{ route('admin.users.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 {{ request()->routeIs('admin.users.index') ? 'bg-gray-700' : '' }}">
+                    Manajemen Pengguna
+                </a>
+                <a href="{{ route('admin.staff.index') }}" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 {{ request()->routeIs('admin.staff.index') ? 'bg-gray-700' : '' }}">
+                    Manajemen Staff
+                </a>
                 {{-- Tambahkan link untuk Manajemen Kamar nanti --}}
                 {{-- <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700">Manajemen Kamar</a> --}}
                 {{-- Tambahkan link untuk Manajemen Reservasi nanti --}}

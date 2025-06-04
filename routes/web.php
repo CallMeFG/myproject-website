@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\RoomManagementController; // Tambahkan ini
 use App\Http\Controllers\Admin\ReservationController as AdminReservationController; // Tambahkan ini
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\Staff\ReservationController as StaffReservationController; // Tambahkan ini
+use App\Http\Controllers\Admin\UserManagementController; // Tambahkan ini
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,10 @@ use App\Http\Controllers\Staff\ReservationController as StaffReservationControll
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
 Route::get('/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
-
+// TAMBAHKAN RUTE UNTUK HALAMAN ABOUT DAN KONTAK DI SINI:
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::post('/contact/submit', [HomeController::class, 'handleContactForm'])->name('contact.submit'); // RUTE BARU
 
 // Rute Dashboard Pengguna (menggantikan definisi lama dari Breeze)
 Route::get('/dashboard', [UserDashboardController::class, 'index'])
@@ -49,11 +53,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
     // TAMBAHKAN RESOURCE ROUTE UNTUK KAMAR DI SINI:
     Route::resource('rooms', RoomManagementController::class);
-    // Rute admin lainnya akan ditambahkan di sini nanti
-    // TAMBAHKAN RUTE UNTUK MELIHAT SEMUA RESERVASI DI SINI:
     Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
-    // Mungkin nanti kita tambahkan rute untuk melihat detail satu reservasi oleh admin:
-    // Route::get('/reservations/{reservation}', [AdminReservationController::class, 'show'])->name('reservations.show');
+    // TAMBAHKAN RUTE UNTUK MANAJEMEN PENGGUNA & STAFF DI SINI:
+    Route::get('/users', [UserManagementController::class, 'listUsers'])->name('users.index'); // Daftar pengguna biasa
+    Route::get('/staff', [UserManagementController::class, 'listStaff'])->name('staff.index'); // Daftar staff
+    Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy'); // Hapus pengguna atau staff
+    // TAMBAHKAN RUTE UNTUK MELIHAT DETAIL SATU RESERVASI DI SINI:
+    Route::get('/reservations/{reservation}', [AdminReservationController::class, 'show'])->name('reservations.show');
+    // TAMBAHKAN RUTE UNTUK EDIT DAN UPDATE PERAN PENGGUNA DI SINI:
+    Route::get('/users/{user}/edit-role', [UserManagementController::class, 'editRole'])->name('users.editRole');
+    Route::patch('/users/{user}/update-role', [UserManagementController::class, 'updateRole'])->name('users.updateRole');
 });
 
 // Rute untuk Staff
@@ -64,5 +73,7 @@ Route::middleware(['auth', 'staff'])->prefix('staff')->name('staff.')->group(fun
     Route::get('/reservations', [StaffReservationController::class, 'index'])->name('reservations.index');
     // TAMBAHKAN RUTE UNTUK UPDATE STATUS RESERVASI DI SINI:
     Route::patch('/reservations/{reservation}/update-status', [StaffReservationController::class, 'updateStatus'])->name('reservations.updateStatus');
+    // TAMBAHKAN RUTE UNTUK MELIHAT DETAIL SATU RESERVASI STAFF DI SINI:
+    Route::get('/reservations/{reservation}', [StaffReservationController::class, 'show'])->name('reservations.show');
 });
 require __DIR__ . '/auth.php';

@@ -12,7 +12,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {{-- Kolom Gambar Kamar --}}
                         <div>
-                            <img src="{{ $room->image }}" alt="{{ $room->type }}" class="w-full h-auto object-cover rounded-lg shadow-md">
+                            <img src="{{ $room->image_url }}" alt="{{ $room->type }}" class="w-full h-auto object-cover rounded-lg shadow-md">
                         </div>
 
                         {{-- Kolom Detail Kamar --}}

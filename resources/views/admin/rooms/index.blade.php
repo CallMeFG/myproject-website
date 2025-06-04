@@ -27,6 +27,7 @@
                             <thead class="bg-gray-50 dark:bg-gray-700/50">
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">ID</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Gambar</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tipe Kamar</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Harga</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Kuantitas</th>
@@ -35,8 +36,18 @@
                             </thead>
                             <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                 @forelse ($rooms as $room)
+
                                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40">
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{{ $room->id }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <img src="{{ $room->image_url }}" alt="{{ $room->type }}" class="w-full h-52 object-cover">
+                                        {{-- Jika Anda ingin tetap ada N/A jika image_url adalah placeholder default --}}
+                                        {{-- @if ($room->image)
+                                        <img src="{{ $room->image_url }}" alt="{{ $room->type }}" class="h-10 w-16 object-cover rounded">
+                                        @else
+                                        <span class="text-xs text-gray-400 dark:text-gray-500">N/A</span>
+                                        @endif --}}
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ $room->type }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">Rp {{ number_format($room->price, 0, ',', '.') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ $room->quantity }}</td>
@@ -52,7 +63,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500 dark:text-gray-400">
+                                    <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500 dark:text-gray-400">
                                         Belum ada data kamar.
                                     </td>
                                 </tr>

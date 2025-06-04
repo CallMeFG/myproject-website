@@ -6,23 +6,53 @@ use App\Http\Controllers\Controller;
 use App\Models\Reservation;         // Import model Reservation
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator; // Untuk validasi
-
+use Carbon\Carbon; // Import Carbon
 class ReservationController extends Controller
 {
     /**
      * Display a listing of all reservations for staff.
      */
-    public function index()
+    public function index(Request $request) // Pastikan Request $request ada di sini
     {
-        // Ambil semua reservasi
-        // Eager load relasi 'user' (pengguna yang memesan) dan 'room' (kamar yang dipesan)
-        // Urutkan berdasarkan tanggal reservasi dibuat, yang paling baru di atas
-        $reservations = Reservation::with(['user', 'room'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(15); // Gunakan pagination
+        $statuses = ['Pending', 'Confirmed', 'Cancelled'];
+        $selectedStatus = $request->query('status');
 
-        // Kirim data ke view 'staff.reservations.index'
-        return view('staff.reservations.index', compact('reservations'));
+        // Ambil input tanggal
+        $dateFrom = $request->query('date_from');
+        $dateTo = $request->query('date_to');
+
+        $reservationsQuery = Reservation::with(['user', 'room']);
+
+        // Terapkan filter status jika ada dan valid
+        if (in_array($selectedStatus, $statuses)) {
+            $reservationsQuery->where('status', $selectedStatus);
+        }
+
+        // Terapkan filter tanggal jika kedua tanggal diisi
+        if ($dateFrom && $dateTo) {
+            try {
+                $validDateFrom = Carbon::createFromFormat('Y-m-d', $dateFrom)->startOfDay();
+                $validDateTo = Carbon::createFromFormat('Y-m-d', $dateTo)->endOfDay();
+
+                if ($validDateTo->gte($validDateFrom)) { // Pastikan tanggal_sampai >= tanggal_dari
+                    $reservationsQuery->whereBetween('check_in_date', [$validDateFrom, $validDateTo]);
+                }
+            } catch (\Exception $e) {
+                // Abaikan filter tanggal jika format tidak valid
+            }
+        }
+
+        $reservations = $reservationsQuery->orderBy('created_at', 'desc')
+            ->paginate(15)
+            ->withQueryString(); // Penting agar semua parameter filter terbawa di pagination
+
+        return view('staff.reservations.index', [
+            'reservations' => $reservations,
+            'statuses' => $statuses,
+            'selectedStatus' => $selectedStatus,
+            'dateFrom' => $dateFrom, // Kirim tanggal filter ke view
+            'dateTo' => $dateTo,     // Kirim tanggal filter ke view
+        ]);
     }
     /**
      * Update the status of the specified reservation.
@@ -62,5 +92,18 @@ class ReservationController extends Controller
             return redirect()->route('staff.reservations.index')
                 ->with('error', 'Terjadi kesalahan saat memperbarui status reservasi.');
         }
+    }
+    /**
+     * Display the specified reservation detail for staff.
+     *
+     * @param  \App\Models\Reservation  $reservation
+     * @return \Illuminate\View\View
+     */
+    public function show(Reservation $reservation)
+    {
+        // Eager load relasi user dan room untuk memastikan data tersedia di view
+        $reservation->load(['user', 'room']);
+
+        return view('staff.reservations.show', compact('reservation'));
     }
 }

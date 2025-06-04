@@ -9,7 +9,7 @@
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 md:p-8 text-gray-900 dark:text-gray-100">
-                    <form method="POST" action="{{ route('admin.rooms.update', $room->id) }}">
+                    <form method="POST" action="{{ route('admin.rooms.update', $room->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT') {{-- Metode HTTP untuk update adalah PUT atau PATCH --}}
 
@@ -41,16 +41,23 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-300">URL Gambar</label>
-                            <input type="url" name="image" id="image" value="{{ old('image', $room->image) }}" placeholder="https://example.com/image.jpg"
-                                class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:bg-gray-900 dark:text-gray-200 sm:text-sm">
-                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Masukkan URL lengkap gambar kamar.</p>
-                            @if($room->image)
-                            <div class="mt-2">
+                            <label for="image" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Ganti Gambar Kamar (Opsional)</label>
+                            {{-- Tampilkan gambar saat ini jika ada --}}
+                            @if ($room->image)
+                            <div class="mt-2 mb-2">
                                 <p class="text-xs text-gray-500 dark:text-gray-400">Gambar saat ini:</p>
-                                <img src="{{ $room->image }}" alt="Gambar Kamar" class="mt-1 w-32 h-auto rounded">
+                                <img src="{{ $room->image_url }}" alt="Gambar {{ $room->type }}" class="mt-1 w-48 h-auto rounded shadow-md">
                             </div>
+                            @else
+                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Belum ada gambar untuk kamar ini.</p>
                             @endif
+
+                            <input type="file" name="image" id="image"
+                                class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                aria-describedby="image_help">
+                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400" id="image_help">
+                                Format: JPG, PNG, JPEG. Maks: 2MB. Kosongkan jika tidak ingin mengganti gambar.
+                            </p>
                             @error('image')
                             <p class="mt-1 text-xs text-red-500">{{ $message }}</p>
                             @enderror

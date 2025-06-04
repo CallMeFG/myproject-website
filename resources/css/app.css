@@ -1,3 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Styling untuk Swiper Navigation Buttons */
+.featured-rooms-slider .swiper-button-next,
+.featured-rooms-slider .swiper-button-prev {
+    color: white; /* Warna ikon panah */
+    background-color: rgba(0, 0, 0, 0.2); /* Latar belakang semi-transparan sedikit lebih lembut */
+    width: 3rem; /* Lebar tombol (Tailwind: w-12) */
+    height: 3rem; /* Tinggi tombol (Tailwind: h-12) */
+    border-radius: 9999px; /* full rounded */
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+    opacity: 0; /* Sembunyikan secara default */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10; /* Pastikan di atas gambar */
+}
+
+/* Posisi spesifik jika default Swiper kurang pas */
+.featured-rooms-slider .swiper-button-next {
+    right: 1rem; /* Tailwind: right-4 */
+}
+.featured-rooms-slider .swiper-button-prev {
+    left: 1rem; /* Tailwind: left-4 */
+}
+
+
+.featured-rooms-slider:hover .swiper-button-next,
+.featured-rooms-slider:hover .swiper-button-prev {
+    opacity: 1; /* Tampilkan saat slider di-hover */
+}
+
+.featured-rooms-slider .swiper-button-next:hover,
+.featured-rooms-slider .swiper-button-prev:hover {
+    background-color: rgba(0, 0, 0, 0.5); /* Latar belakang lebih gelap saat panah di-hover */
+}
+
+/* Menyesuaikan ukuran default ikon panah Swiper */
+.featured-rooms-slider .swiper-button-next::after,
+.featured-rooms-slider .swiper-button-prev::after {
+    font-size: 1rem; /* Ukuran ikon panah, lebih kecil dari default */
+    font-weight: 700;
+}
+
+/* Styling untuk Swiper Pagination Bullets */
+.featured-rooms-slider .swiper-pagination {
+    position: absolute; /* Atau 'relative' jika Anda sudah atur di HTML */
+    bottom: 10px; /* Atur posisi dari bawah */
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto; /* Agar tidak full width */
+    z-index: 10;
+}
+
+.featured-rooms-slider .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    opacity: 0.5;
+    margin: 0 5px !important; /* Penting untuk override margin default Swiper */
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+}
+
+.featured-rooms-slider .swiper-pagination-bullet-active {
+    opacity: 1;
+    background-color: #3b82f6; /* Contoh: Warna biru (Tailwind: bg-blue-500 atau bg-blue-600) */
+}

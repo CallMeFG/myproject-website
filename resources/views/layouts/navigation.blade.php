@@ -19,7 +19,12 @@
                         {{ __('Kamar') }}
                     </x-nav-link>
                     {{-- AKHIR PENAMBAHAN LINK BARU --}}
-
+                    <x-nav-link :href="route('about')" :active="request()->routeIs('about')">
+                        {{ __('Tentang Kami') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
+                        {{ __('Kontak') }}
+                    </x-nav-link>
                     {{-- Link Dashboard tetap ada, berguna jika pengguna sudah login --}}
                     @auth {{-- Hanya tampilkan jika user sudah login --}}
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -91,7 +96,14 @@
                 {{ __('Kamar') }}
             </x-responsive-nav-link>
             {{-- AKHIR PENAMBAHAN LINK MOBILE BARU --}}
-
+            {{-- ... (setelah link Kamar) ... --}}
+            <x-responsive-nav-link :href="route('about')" :active="request()->routeIs('about')">
+                {{ __('Tentang Kami') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
+                {{ __('Kontak') }}
+            </x-responsive-nav-link>
+            {{-- ... (sebelum link Dashboard jika ada) ... --}}
             @auth {{-- Hanya tampilkan jika user sudah login --}}
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
