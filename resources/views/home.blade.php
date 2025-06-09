@@ -19,42 +19,42 @@
         </div>
     </section>
 
-    {{-- 2. BAGIAN KAMAR UNGGULAN KAMI --}}
-    <section class="bg-gray-800 dark:bg-gray-800 py-12 md:py-16">
+    <section class="bg-gray-100 dark:bg-gray-800 py-12 md:py-16">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <h3 class="text-3xl font-semibold text-white dark:text-white mb-8 md:mb-10 text-center">
+            <h3 class="text-3xl font-semibold text-gray-900 dark:text-gray-100 mb-8 md:mb-10 text-center">
                 Kamar Unggulan Kami
             </h3>
 
-            @if(isset($featuredRooms) && $featuredRooms->count() >= 1)
-            {{-- Kontainer untuk kartu-kartu horizontal. Kita akan mengurangi gap di sini. --}}
-            {{-- Sebelumnya mungkin 'gap-8'. Kita coba 'gap-4' untuk jarak vertikal antar kartu. --}}
-            <div class="grid grid-cols-1 gap-4">
+            @if(isset($featuredRooms) && $featuredRooms->count() > 0)
+            <div class="space-y-8">
                 @foreach ($featuredRooms as $room)
-                {{-- Kartu Kamar Horizontal --}}
-                <div class="bg-white dark:bg-gray-700 rounded-xl shadow-xl overflow-hidden md:flex transform transition-all duration-300 ease-in-out hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.02]">
-                    {{-- Bagian Gambar (Kiri di layar md ke atas) --}}
-                    <div class="md:w-5/12 lg:w-4/12 flex-shrink-0">
-                        <div class="w-full h-64 md:h-full bg-gray-300 dark:bg-gray-600"> {{-- Tinggi gambar diatur di sini --}}
-                            <img src="{{ $room->image_url }}"
-                                alt="{{ $room->type }}"
-                                class="w-full h-full object-cover">
-                        </div>
+                <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden md:flex">
+
+                    {{-- Bagian Gambar --}}
+                    <div class="md:w-2/5 flex-shrink-0">
+                        <a href="{{ route('rooms.show', $room->id) }}">
+                            {{-- DIUBAH: Tinggi gambar dibuat tetap (h-64) untuk semua ukuran layar --}}
+                            <img src="{{ $room->image_url }}" alt="{{ $room->type }}"
+                                class="w-full h-64 object-cover">
+                        </a>
                     </div>
-                    {{-- Bagian Teks Detail (Kanan di layar md ke atas) --}}
-                    <div class="p-5 md:p-6 lg:p-8 flex flex-col justify-between md:w-7/12 lg:w-8/12">
+
+                    {{-- Bagian Teks Detail --}}
+                    <div class="p-6 md:p-8 flex flex-col justify-between md:w-3/5">
+                        {{-- Konten Teks --}}
                         <div>
-                            <h4 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-50 mb-1.5">{{ $room->type }}</h4>
-                            <p class="text-lg text-indigo-600 dark:text-indigo-400 font-semibold mb-3">
+                            <h4 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-50">{{ $room->type }}</h4>
+                            <p class="text-lg text-indigo-600 dark:text-indigo-400 font-semibold my-2">
                                 Rp {{ number_format($room->price, 0, ',', '.') }} <span class="text-sm text-gray-600 dark:text-gray-400">/ malam</span>
                             </p>
-                            <p class="text-sm text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
-                                {{ Str::limit($room->description, 160) }}
+                            <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                                {{ Str::limit($room->description, 150) }}
                             </p>
                         </div>
-                        <div class="mt-auto pt-3 md:pt-4">
+                        {{-- Tombol Aksi --}}
+                        <div class="mt-4">
                             <a href="{{ route('rooms.show', $room->id) }}"
-                                class="inline-block w-full sm:w-auto text-center px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 transition ease-in-out duration-150">
+                                class="inline-block px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
                                 Lihat Detail & Pesan
                             </a>
                         </div>
@@ -209,7 +209,7 @@
                     <p class="text-gray-600 dark:text-gray-300 italic mb-6 leading-relaxed text-sm">
                         "Ketika dia mencapai perbukitan pertama dari pegunungan Italic, dia memiliki pandangan terakhir dari kampung halamannya, Booksgrove."
                     </p>
-                    <p class="font-semibold text-gray-800 dark:text-gray-50 mt-auto">- Jane Doe</p>
+                    <p class="font-semibold text-gray-800 dark:text-gray-50 mt-auto">- Zaki Sanjaya</p>
                 </div>
             </div>
             {{-- Jika ingin ada pagination/slider untuk testimoni, bisa ditambahkan di sini nanti --}}

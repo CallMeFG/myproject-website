@@ -70,7 +70,7 @@
             </section>
 
             <section>
-                <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Di Balik Layar</h2>
+                <h2 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">Leadership</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     <div class="text-center">
                         <img class="w-32 h-32 mx-auto rounded-full shadow-lg mb-4 object-cover" src="{{asset('images/bussinessman.jpg')}}" alt="Foto John Doe">

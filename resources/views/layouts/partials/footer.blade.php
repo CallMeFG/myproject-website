@@ -16,7 +16,7 @@
             </div>
 
             <div>
-                <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Link Cepat</h3>
+                <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Navigasi</h3>
                 <ul class="mt-4 space-y-2">
                     <li><a href="{{ route('home') }}" class="text-base text-gray-300 hover:text-white">Beranda</a></li>
                     <li><a href="{{ route('rooms.index') }}" class="text-base text-gray-300 hover:text-white">Kamar</a></li>
