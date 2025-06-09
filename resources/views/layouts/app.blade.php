@@ -6,13 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>
+        @if (isset($title))
+        {{ $title }} - {{ config('app.name', 'Laravel') }}
+        @else
+        {{ config('app.name', 'Laravel') }}
+        @endif
+    </title>
 
+
+    <link rel="icon" href="{{ asset('images/letter-c.png') }}" type="image/png">
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     {{-- ... (meta tags, title, fonts lainnya yang sudah ada) ... --}}
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" /> {{-- CSS SwiperJS --}}
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -40,6 +52,8 @@
     {{-- Jika Anda menggunakan @stack('scripts') di layout ini untuk script per halaman, biarkan.
          Script inisialisasi Swiper untuk home.blade.php akan kita @push ke sana.
          Jika tidak, script inisialisasi bisa langsung di home.blade.php --}}
+    @include('layouts.partials.footer')
+
 </body>
 
 </html>

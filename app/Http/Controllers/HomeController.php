@@ -16,10 +16,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // Ambil 4 kamar terbaru berdasarkan ID atau created_at
-        $featuredRooms = Room::orderBy('id', 'desc')->take(4)->get();
-        // Atau: $featuredRooms = Room::orderBy('created_at', 'desc')->take(4)->get();
-
+        // Pastikan ini mengambil 3 kamar jika Blade mengharapkan 3
+        $featuredRooms = Room::orderBy('id', 'desc')->take(3)->get();
         return view('home', ['featuredRooms' => $featuredRooms]);
     }
     /**

@@ -42,7 +42,7 @@ class AuthenticatedSessionController extends Controller
         // Untuk pengguna biasa, arahkan ke '/dashboard' yang sudah ada namanya
         // atau ke RouteServiceProvider::HOME jika Anda sudah mengubahnya.
         // Jika RouteServiceProvider::HOME masih '/dashboard', ini sudah benar.
-        return redirect()->intended(route('dashboard'));
+        return redirect()->intended('/');
         // Atau jika RouteServiceProvider::HOME sudah Anda ubah ke '/' atau '/home'
         // return redirect()->intended(RouteServiceProvider::HOME);
     }

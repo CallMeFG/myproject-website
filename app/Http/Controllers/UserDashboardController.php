@@ -28,6 +28,6 @@ class UserDashboardController extends Controller
             $reservations = $user->reservations()->with('room')->orderBy('created_at', 'desc')->get();
         }
 
-        return view('dashboard', ['reservations' => $reservations]);
+        return view('customer.dashboard', ['reservations' => $reservations]);
     }
 }

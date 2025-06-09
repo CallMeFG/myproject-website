@@ -33,20 +33,20 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact/submit', [HomeController::class, 'handleContactForm'])->name('contact.submit'); // RUTE BARU
 
-// Rute Dashboard Pengguna (menggantikan definisi lama dari Breeze)
-Route::get('/dashboard', [UserDashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-    
-// Grup rute yang memerlukan autentikasi
-Route::middleware('auth')->group(function () {
-    // Rute untuk profil pengguna (sudah ada)
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+// --- RUTE AREA PENGGUNA BARU (Perubahan Besar) ---
+Route::middleware(['auth'])->group(function () {
+    // Rute untuk menyimpan reservasi tetap di sini
+    Route::post('/reservations/{room}', [ReservationController::class, 'store'])->name('reservations.store');
+
+    // Grup baru untuk Area Pengguna dengan prefix /user
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    });
+
+    // Rute profil untuk update dan delete kita arahkan ke controller yang sama
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    // Rute untuk menyimpan reservasi baru (TAMBAHKAN BARIS INI)
-    Route::post('/reservations/{room}', [ReservationController::class, 'store'])->name('reservations.store');
 });
 // Rute untuk Admin
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
