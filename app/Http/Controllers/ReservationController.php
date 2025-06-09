@@ -92,11 +92,11 @@ class ReservationController extends Controller
             $reservation->save();
 
             // 5. Redirect Pengguna dengan Pesan Sukses
-            return redirect()->route('dashboard') // Atau ke halaman lain yang sesuai
+            return redirect()->route('user.dashboard') // Atau ke halaman lain yang sesuai
                 ->with('success', 'Reservasi Anda untuk ' . $room->type . ' telah diterima dan sedang menunggu konfirmasi.');
         } catch (\Exception $e) {
             // Tangani error jika gagal menyimpan ke database
-            // Log errornya untuk debug: \Log::error($e->getMessage());
+            \Log::error('Gagal menyimpan reservasi: ' . $e->getMessage()); // <-- HAPUS TANDA KOMENTAR
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan saat memproses reservasi Anda. Silakan coba lagi.')
                 ->withInput();

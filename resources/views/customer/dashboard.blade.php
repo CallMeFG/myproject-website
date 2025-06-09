@@ -1,12 +1,7 @@
 <x-customer-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard Saya') }}
-        </h2>
-    </x-slot>
+    <h3 class="text-gray-700 dark:text-gray-200 text-3xl font-medium">Dashboard Saya</h3>
 
-    {{-- Konten utama dashboard pengguna --}}
-    <div class="space-y-6">
+    <div class="mt-4 space-y-6">
         {{-- Notifikasi Sukses --}}
         @if (session('success'))
         <div class="p-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-700/30 dark:text-green-200" role="alert">
@@ -14,14 +9,50 @@
         </div>
         @endif
 
-        {{-- KARTU 1: Riwayat Reservasi --}}
+        {{-- FORM UNTUK FILTER DAN SORT --}}
+        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="p-6">
+                <form action="{{ route('user.dashboard') }}" method="GET">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                        {{-- Filter by Status --}}
+                        <div>
+                            <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Filter Status</label>
+                            <select id="status" name="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                <option value="">Semua Status</option>
+                                <option value="Pending" @selected(request('status')=='Pending' )>Menunggu Konfirmasi</option>
+                                <option value="Confirmed" @selected(request('status')=='Confirmed' )>Dikonfirmasi</option>
+                                <option value="Cancelled" @selected(request('status')=='Cancelled' )>Dibatalkan</option>
+                            </select>
+                        </div>
+                        {{-- Sort by Date --}}
+                        <div>
+                            <label for="sort" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Urutkan Berdasarkan</label>
+                            <select id="sort" name="sort" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                <option value="created_at_desc" @selected(request('sort', 'created_at_desc' )=='created_at_desc' )>Tanggal Pesan (Terbaru)</option>
+                                <option value="created_at_asc" @selected(request('sort')=='created_at_asc' )>Tanggal Pesan (Terlama)</option>
+                                <option value="check_in_desc" @selected(request('sort')=='check_in_desc' )>Tanggal Check-in (Mendatang)</option>
+                                <option value="check_in_asc" @selected(request('sort')=='check_in_asc' )>Tanggal Check-in (Terlama)</option>
+                            </select>
+                        </div>
+                        {{-- Tombol Terapkan --}}
+                        <div>
+                            <button type="submit" class="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Terapkan
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {{-- KARTU: Riwayat Reservasi --}}
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900 dark:text-gray-100">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                     Riwayat Reservasi Anda
                 </h3>
 
-                @if(isset($reservations) && $reservations->count())
+                @if(isset($reservations) && $reservations->count() > 0)
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead class="bg-gray-50 dark:bg-gray-700/50">
@@ -34,7 +65,7 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                            @foreach ($reservations as $reservation)
+                            @forelse ($reservations as $reservation)
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-50">{{ $reservation->room ? $reservation->room->type : 'N/A' }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">{{ \Carbon\Carbon::parse($reservation->check_in_date)->format('d M Y') }}</td>
@@ -52,28 +83,22 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-200">{{ $reservation->created_at->format('d M Y, H:i') }}</td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500">Tidak ada reservasi yang cocok dengan kriteria Anda.</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
-                @else
-                <p class="text-gray-700 dark:text-gray-300">Anda belum memiliki riwayat reservasi.</p>
-                @endif
-            </div>
-        </div>
 
-        {{-- KARTU 2: Profil Singkat (opsional) --}}
-        {{-- Kita bisa tampilkan ini agar pengguna tidak perlu ke halaman profil hanya untuk melihat data dasar --}}
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6 text-gray-900 dark:text-gray-100">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                    Profil Singkat
-                </h3>
-                <div class="space-y-2">
-                    <p><span class="font-medium text-gray-700 dark:text-gray-300">Nama:</span> <span class="text-gray-900 dark:text-gray-100">{{ Auth::user()->name }}</span></p>
-                    <p><span class="font-medium text-gray-700 dark:text-gray-300">Email:</span> <span class="text-gray-900 dark:text-gray-100">{{ Auth::user()->email }}</span></p>
-                    <p class="mt-3"><a href="{{ route('user.profile.edit') }}" class="text-sm text-indigo-500 hover:underline">Kelola Profil & Password &rarr;</a></p>
+                {{-- Link untuk Pagination --}}
+                <div class="mt-6">
+                    {{ $reservations->withQueryString()->links() }}
                 </div>
+                @else
+                <p class="text-gray-500 dark:text-gray-400">Anda belum memiliki riwayat reservasi.</p>
+                @endif
             </div>
         </div>
     </div>

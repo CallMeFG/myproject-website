@@ -56,7 +56,7 @@
                                 class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                 aria-describedby="image_help">
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400" id="image_help">
-                                Format: JPG, PNG, JPEG. Maks: 2MB. Kosongkan jika tidak ingin mengganti gambar.
+                                Format: JPG, PNG, JPEG. Maks: 6MB. Kosongkan jika tidak ingin mengganti gambar.
                             </p>
                             @error('image')
                             <p class="mt-1 text-xs text-red-500">{{ $message }}</p>

@@ -20,7 +20,7 @@
                 <ul class="mt-4 space-y-2">
                     <li><a href="{{ route('home') }}" class="text-base text-gray-300 hover:text-white">Beranda</a></li>
                     <li><a href="{{ route('rooms.index') }}" class="text-base text-gray-300 hover:text-white">Kamar</a></li>
-                    <li><a href="{{ route('about') }}" class="text-base text-gray-300 hover:text-white">Tentang Kami</a></li>
+                    <li><a href="{{ route('about') }}" class="text-base text-gray-300 hover:text-white">Tentang</a></li>
                     <li><a href="{{ route('contact') }}" class="text-base text-gray-300 hover:text-white">Kontak</a></li>
                 </ul>
             </div>

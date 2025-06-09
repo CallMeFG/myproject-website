@@ -1,12 +1,12 @@
 <x-app-layout>
     {{-- BARU: Definisikan judul untuk halaman ini --}}
     <x-slot name="title">
-        Contact
+        ContactHey, Cortana. 
     </x-slot>
 
     <x-page-header
-        title="Contact"
-        :backgroundImageUrl="asset('images/pool.jpg')" />
+        title="Kontak"
+        :backgroundImageUrl="asset('images/hero-hotel.jpg')" />
 
     <div class="py-12 bg-gray-100 dark:bg-gray-900">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

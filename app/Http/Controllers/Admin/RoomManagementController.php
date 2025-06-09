@@ -39,7 +39,7 @@ class RoomManagementController extends Controller
             'description' => 'nullable|string',
             // Validasi untuk file gambar:
             // 'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Boleh kosong, harus file gambar, format tertentu, maks 2MB
-            'image' => 'nullable|file|mimes:jpeg,png,jpg|max:2048', // 'file' lebih umum jika 'image' bermasalah, tapi 'image' lebih spesifik untuk validasi tipe gambar
+            'image' => 'nullable|file|mimes:jpeg,png,jpg|max:6144', // 'file' lebih umum jika 'image' bermasalah, tapi 'image' lebih spesifik untuk validasi tipe gambar
             'quantity' => 'required|integer|min:0',
         ], [
             'type.required' => 'Tipe kamar wajib diisi.',
@@ -50,7 +50,7 @@ class RoomManagementController extends Controller
             'image.image' => 'File yang diupload harus berupa gambar.', // Pesan jika menggunakan validasi 'image'
             'image.file' => 'File yang diupload tidak valid.', // Pesan jika menggunakan validasi 'file'
             'image.mimes' => 'Format gambar harus JPG, JPEG, atau PNG.',
-            'image.max' => 'Ukuran gambar maksimal adalah 2MB.',
+            'image.max' => 'Ukuran gambar maksimal adalah 6MB.',
         ]);
 
         // 2. Handle File Upload jika ada gambar yang diupload
@@ -111,7 +111,7 @@ class RoomManagementController extends Controller
             'type' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Boleh kosong saat update
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:6144', // Boleh kosong saat update
             'quantity' => 'required|integer|min:0',
         ], [
             'type.required' => 'Tipe kamar wajib diisi.',
@@ -121,7 +121,7 @@ class RoomManagementController extends Controller
             'quantity.integer' => 'Kuantitas harus berupa angka bulat.',
             'image.image' => 'File yang diupload harus berupa gambar.',
             'image.mimes' => 'Format gambar harus JPG, JPEG, atau PNG.',
-            'image.max' => 'Ukuran gambar maksimal adalah 2MB.',
+            'image.max' => 'Ukuran gambar maksimal adalah 6MB.',
         ]);
 
         // 2. Handle File Upload jika ada gambar baru yang diupload

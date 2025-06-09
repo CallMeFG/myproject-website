@@ -2,32 +2,52 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request; // Meskipun tidak langsung digunakan di metode index, baik untuk disertakan.
-use Illuminate\Support\Facades\Auth; // Untuk mendapatkan informasi pengguna yang sedang login.
-// Kita tidak perlu meng-import model App\Models\Reservation secara langsung di sini
-// karena kita akan mengaksesnya melalui relasi dari model User.
-// Kita juga tidak perlu meng-import model App\Models\User di sini karena Auth::user()
-// akan mengembalikan instance dari model User tersebut.
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class UserDashboardController extends Controller
 {
     /**
-     * Menampilkan dashboard pengguna beserta riwayat reservasi mereka.
-     *
-     * @return \Illuminate\View\View
+     * Menampilkan dashboard pengguna dengan riwayat reservasi yang bisa difilter dan diurutkan.
      */
-    public function index()
+    public function index(Request $request): View
     {
-        /** @var \App\Models\User|null $user */ // Tambahkan baris PHPDoc ini
+        /** @var \App\Models\User $user */
         $user = Auth::user();
-        $reservations = collect(); // Inisialisasi sebagai collection kosong
 
-        if ($user) { // Baik untuk memeriksa apakah user benar-benar ada
-            // Ambil reservasi milik user, urutkan berdasarkan yang terbaru
-            // Eager load relasi 'room' agar kita bisa menampilkan tipe kamar
-            $reservations = $user->reservations()->with('room')->orderBy('created_at', 'desc')->get();
+        // Memulai query dasar untuk reservasi milik pengguna yang sedang login
+        $query = $user->reservations()->with('room');
+
+        // 1. Menerapkan Filter berdasarkan Status
+        if ($request->filled('status') && $request->status != '') {
+            $query->where('status', $request->status);
         }
 
-        return view('customer.dashboard', ['reservations' => $reservations]);
+        // 2. Menerapkan Logika Urutkan (Sort)
+        $sortOrder = $request->input('sort', 'created_at_desc'); // Default urutan adalah berdasarkan tanggal pesan terbaru
+
+        switch ($sortOrder) {
+            case 'check_in_asc':
+                $query->orderBy('check_in_date', 'asc');
+                break;
+            case 'check_in_desc':
+                $query->orderBy('check_in_date', 'desc');
+                break;
+            case 'created_at_asc':
+                $query->orderBy('created_at', 'asc');
+                break;
+            default: // created_at_desc
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+
+        // 3. Mengambil hasil dengan pagination (10 data per halaman)
+        $reservations = $query->paginate(10);
+
+        // 4. Mengirim data ke view
+        return view('customer.dashboard', [
+            'reservations' => $reservations
+        ]);
     }
 }

@@ -16,7 +16,7 @@
                         {{ __('Kamar') }}
                     </x-nav-link>
                     <x-nav-link :href="route('about')" :active="request()->routeIs('about')">
-                        {{ __('Tentang Kami') }}
+                        {{ __('Tentang') }}
                     </x-nav-link>
                     <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
                         {{ __('Kontak') }}
