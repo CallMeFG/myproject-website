@@ -383,18 +383,33 @@ callmehotel/
 ├── 📁 app/
 │   ├── 📁 Http/
 │   │   ├── 📁 Controllers/     # Business logic controllers (Admin, Staff, Auth)
-│   │   └── 📁 Middleware/      # Custom middleware (AdminMiddleware, StaffMiddleware)
+│   │   ├── 📁 Middleware/      # Custom middleware (AdminMiddleware, StaffMiddleware)
+│   │   └── 📁 Requests/        # Form request validation classes
 │   ├── 📁 Models/              # Eloquent models (User, Room, Reservation)
-│   └── 📁 Providers/           # Service providers
+│   ├── 📁 Providers/           # Service providers
+│   └── 📁 View/                # View composers and creators
+├── 📁 bootstrap/               # Framework bootstrap files
+├── 📁 config/                  # Configuration files
 ├── 📁 database/
+│   ├── 📁 factories/           # Model factories for testing
 │   ├── 📁 migrations/          # Database schema definitions
 │   └── 📁 seeders/             # Initial data seeders
+├── 📁 node_modules/            # Frontend dependencies
+├── 📁 public/                  # Public assets and entry point
 ├── 📁 resources/
 │   ├── 📁 css/                 # Stylesheets (app.css)
 │   ├── 📁 js/                  # JavaScript files (app.js)
 │   └── 📁 views/               # Blade templates organized by role
 ├── 📁 routes/                  # Route definitions (web.php, auth.php)
-├── 📁 public/                  # Public assets and entry point
+├── 📁 storage/
+│   ├── 📁 app/                 # Application storage
+│   ├── 📁 framework/           # Framework cache and sessions
+│   └── 📁 logs/                # Application logs
+├── 📁 tests/
+│   ├── 📁 Feature/             # Feature tests
+│   ├── 📁 Unit/                # Unit tests
+│   └── 📄 TestCase.php         # Base test case
+├── 📁 vendor/                  # Composer dependencies
 └── 📄 vite.config.js           # Vite configuration
 ```
 
