@@ -25,6 +25,7 @@
 - [Key Features](#-key-features--workflows)
 - [User Roles & Permissions](#-user-roles--permissions)
 - [Technology Stack](#-technology-stack)
+- [Application Security](#-application-security)
 - [Prerequisites](#-prerequisites)
 - [Installation Guide](#-installation-guide)
 - [Environment Configuration](#-environment-configuration)
@@ -135,6 +136,16 @@ The application provides comprehensive features designed to serve different type
 4. **Status Update** → Select "Confirmed" from dropdown for valid reservations
 5. **System Update** → Database updated, customer notified of confirmation
 
+#### Admin User Role Management
+1. **Admin Login** → Access admin dashboard
+2. **User Management** → Navigate to "User Management" or "Staff Management" in sidebar
+3. **User Review** → View user list with action buttons (buttons hidden for admin accounts for security)
+4. **Role Edit** → Click "Edit Role" link for target user
+5. **Role Selection** → Choose new role ('user' or 'staff') from dropdown
+6. **Role Update** → Click "Update Role" button
+7. **System Validation** → System validates and updates user `role` column in database
+8. **Confirmation** → Admin redirected to user list with success message
+
 ---
 
 ## 🔐 User Roles & Permissions
@@ -171,6 +182,26 @@ The application implements **Role-Based Access Control (RBAC)** to restrict func
 - **NPM/Yarn** - Frontend package manager
 - **Laravel Pint** - PHP code style fixer
 - **Laravel Pail** - Interactive logging tool
+
+---
+
+## 🔒 Application Security
+
+This project implements several standard web security practices provided by Laravel to protect data and users.
+
+### 🛡️ Security Features
+
+- **CSRF Protection (Cross-Site Request Forgery)**: All forms performing `POST`, `PUT`, `PATCH`, or `DELETE` actions are protected by CSRF tokens using the `@csrf` Blade directive in every form.
+
+- **Server-Side Validation**: All user-submitted data through forms (registration, contact, data creation) is strictly validated server-side using **Laravel Validator**. This prevents invalid or potentially harmful data from entering the system.
+
+- **SQL Injection Protection**: By using Eloquent ORM and Laravel's Query Builder, all database interactions automatically use **prepared statements**, effectively preventing SQL Injection attacks.
+
+- **Password Hashing**: User passwords are never stored as plain text. All passwords are securely hashed using **Bcrypt** during registration and updates. Password verification during login is performed against the hashed value, not plain text.
+
+- **Route Protection with Middleware**: Sensitive routes for Admin and Staff are protected by custom middleware (`AdminMiddleware` and `StaffMiddleware`). These middleware check user roles before granting access and redirect unauthorized users.
+
+- **Output Escaping (XSS Protection)**: Blade template engine automatically escapes all data displayed using `{{ }}` syntax by default. This helps prevent **Cross-Site Scripting (XSS)** attacks by ensuring no malicious scripts are executed on the client side.
 
 ---
 
