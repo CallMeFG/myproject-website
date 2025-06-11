@@ -30,7 +30,7 @@
                 <ul class="mt-4 space-y-2 text-sm">
                     <li class="flex items-start">
                         <i class="fas fa-map-marker-alt fa-fw mt-1 mr-2"></i>
-                        <span>Jl. nasution, Pekanbaru marpoyan, Kode Pos 28284</span>
+                        <span>Jl. Nasution, Pekanbaru marpoyan, Kode Pos 28284</span>
                     </li>
                     <li class="flex items-start">
                         <i class="fas fa-phone fa-fw mt-1 mr-2"></i>

@@ -1,7 +1,7 @@
 <x-app-layout>
     {{-- BARU: Definisikan judul untuk halaman ini --}}
     <x-slot name="title">
-        ContactHey, Cortana. 
+        ContactHey, Cortana.
     </x-slot>
 
     <x-page-header
@@ -41,16 +41,16 @@
                         <div>
                             <div class="mb-8">
                                 <h4 class="text-lg font-semibold mb-2">Detail Kontak CallMeHotel:</h4>
-                                <p class="mb-1"><strong>Alamat:</strong> Jl. Hotel Impian No. 123, Kota Contoh, Kode Pos 45678</p>
-                                <p class="mb-1"><strong>Telepon:</strong> (021) 123-4567</p>
-                                <p class="mb-1"><strong>Email:</strong> info@callmehotel.test</p>
+                                <p class="mb-1"><strong>Alamat:</strong> Jl. Nasution, Pekanbaru marpoyan, Kode Pos 28284</p>
+                                <p class="mb-1"><strong>Telepon:</strong> (012) 998-7766</p>
+                                <p class="mb-1"><strong>Email:</strong> callmestartofficial19@gmail.com</p>
                                 <p class="mb-1"><strong>Jam Operasional:</strong> Buka 24 Jam</p>
                             </div>
                             <div>
                                 <h4 class="text-lg font-semibold mb-2">Lokasi Kami:</h4>
                                 <div class="aspect-w-16 aspect-h-9 bg-gray-200 dark:bg-gray-700 rounded-md flex items-center justify-center">
                                     {{-- Ganti src dengan embed code Google Maps Anda --}}
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322958!2d106.81950381534963!3d-6.194741395514964!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f4248c269a03%3A0x8077075740f3d77d!2sMonas%2C%20Central%20Jakarta%20City%2C%20Jakarta!5e0!3m2!1sen!2sid!4v1622800000000!5m2!1sen!2sid"
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d45137.8963237198!2d101.43133208119754!3d0.5038162786244086!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d5ab80690ee7b1%3A0x94dde92c3823dbe4!2sPekanbaru%2C%20Pekanbaru%20City%2C%20Riau!5e0!3m2!1sen!2sid!4v1749657788289!5m2!1sen!2sid"
                                         width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                                 </div>
                             </div>

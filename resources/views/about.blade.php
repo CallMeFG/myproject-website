@@ -48,21 +48,21 @@
                     <div class="relative mb-8">
                         <div class="absolute left-1/2 w-4 h-4 bg-blue-500 rounded-full transform -translate-x-1/2 mt-1.5"></div>
                         <div class="w-full md:w-1/2 md:pr-8 md:text-right">
-                            <h3 class="font-bold text-lg text-gray-900 dark:text-white">2015 - Awal Mula</h3>
+                            <h3 class="font-bold text-lg text-gray-900 dark:text-white">2021 - Awal Mula</h3>
                             <p class="text-gray-600 dark:text-gray-400">CallMeHotel didirikan dengan satu properti kecil dengan mimpi besar untuk mengubah industri perhotelan lokal.</p>
                         </div>
                     </div>
                     <div class="relative mb-8">
                         <div class="absolute left-1/2 w-4 h-4 bg-blue-500 rounded-full transform -translate-x-1/2 mt-1.5"></div>
                         <div class="w-full md:w-1/2 md:pl-8 md:ml-auto">
-                            <h3 class="font-bold text-lg text-gray-900 dark:text-white">2018 - Ekspansi Pertama</h3>
+                            <h3 class="font-bold text-lg text-gray-900 dark:text-white">2023 - Ekspansi Pertama</h3>
                             <p class="text-gray-600 dark:text-gray-400">Membuka cabang kedua di kota besar, memperkenalkan standar layanan baru dan fasilitas yang lebih modern.</p>
                         </div>
                     </div>
                     <div class="relative mb-8">
                         <div class="absolute left-1/2 w-4 h-4 bg-blue-500 rounded-full transform -translate-x-1/2 mt-1.5"></div>
                         <div class="w-full md:w-1/2 md:pr-8 md:text-right">
-                            <h3 class="font-bold text-lg text-gray-900 dark:text-white">2022 - Penghargaan Digital</h3>
+                            <h3 class="font-bold text-lg text-gray-900 dark:text-white">2025 - Penghargaan Digital</h3>
                             <p class="text-gray-600 dark:text-gray-400">Menerima penghargaan untuk sistem reservasi online terbaik yang memberikan kemudahan bagi pelanggan.</p>
                         </div>
                     </div>
