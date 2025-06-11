@@ -30,15 +30,15 @@
                 <ul class="mt-4 space-y-2 text-sm">
                     <li class="flex items-start">
                         <i class="fas fa-map-marker-alt fa-fw mt-1 mr-2"></i>
-                        <span>Jl. Hotel Impian No. 123, Kota Contoh, Kode Pos 45678</span>
+                        <span>Jl. nasution, Pekanbaru marpoyan, Kode Pos 28284</span>
                     </li>
                     <li class="flex items-start">
                         <i class="fas fa-phone fa-fw mt-1 mr-2"></i>
-                        <span>(021) 123-4567</span>
+                        <span>(012) 998-7766</span>
                     </li>
                     <li class="flex items-start">
                         <i class="fas fa-envelope fa-fw mt-1 mr-2"></i>
-                        <span>info@callmehotel.test</span>
+                        <span>callmestartofficial19@gmail.com</span>
                     </li>
                 </ul>
             </div>
