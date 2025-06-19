@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <title>
         @if (isset($title))
         {{ $title }} - {{ config('app.name', 'Laravel') }}
@@ -54,6 +54,12 @@
                         class="flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 {{ request()->routeIs('staff.reservations.*') ? 'bg-gray-700' : '' }}">
                         <i class="fas fa-calendar-check fa-fw text-center" style="width: 1.25rem;"></i>
                         <span class="ml-4 whitespace-nowrap" x-show="sidebarOpen">Manajemen Reservasi</span>
+                    </a>
+                    {{-- TAMBAHKAN LINK BARU DI SINI --}}
+                    <a href="{{ route('staff.room-status.index') }}"
+                        class="flex items-center py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 {{ request()->routeIs('staff.room-status.index') ? 'bg-gray-700' : '' }}">
+                        <i class="fas fa-bed fa-fw text-center" style="width: 1.25rem;"></i>
+                        <span class="ml-4 whitespace-nowrap" x-show="sidebarOpen">Status Kamar</span>
                     </a>
                 </nav>
 

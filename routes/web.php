@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\ReservationController as AdminReservationControll
 use App\Http\Controllers\Staff\DashboardController as StaffDashboardController;
 use App\Http\Controllers\Staff\ReservationController as StaffReservationController; // Tambahkan ini
 use App\Http\Controllers\Admin\UserManagementController; // Tambahkan ini
+use App\Http\Controllers\Staff\RoomStatusController; // <-- TAMBAHKAN INI
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +38,8 @@ Route::post('/contact/submit', [HomeController::class, 'handleContactForm'])->na
 Route::middleware(['auth'])->group(function () {
     // Rute untuk menyimpan reservasi tetap di sini
     Route::post('/reservations/{room}', [ReservationController::class, 'store'])->name('reservations.store');
-
+    // RUTE BARU UNTUK HALAMAN SUKSES/RESI
+    Route::get('/reservations/success/{reservation}', [ReservationController::class, 'success'])->name('reservations.success');
     // Grup baru untuk Area Pengguna dengan prefix /user
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
@@ -75,5 +77,7 @@ Route::middleware(['auth', 'staff'])->prefix('staff')->name('staff.')->group(fun
     Route::patch('/reservations/{reservation}/update-status', [StaffReservationController::class, 'updateStatus'])->name('reservations.updateStatus');
     // TAMBAHKAN RUTE UNTUK MELIHAT DETAIL SATU RESERVASI STAFF DI SINI:
     Route::get('/reservations/{reservation}', [StaffReservationController::class, 'show'])->name('reservations.show');
+    // RUTE BARU UNTUK STATUS KAMAR <-- TAMBAHKAN BLOK INI
+    Route::get('/room-status', [RoomStatusController::class, 'index'])->name('room-status.index');
 });
 require __DIR__ . '/auth.php';

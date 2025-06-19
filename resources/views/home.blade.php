@@ -4,12 +4,12 @@
         Home
     </x-slot>
     {{-- ... (Hero Section tetap sama seperti yang sudah Anda setujui) ... --}}
-    <section class="bg-gray-700 dark:bg-gray-900 text-white py-20 md:py-32">
+    <section class="bg-gray-200 dark:bg-gray-900 text-white py-20 md:py-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+            <h1 class="text-4xl md:text-5xl text-gray-900 dark:text-gray-100 lg:text-6xl font-bold mb-4">
                 Selamat Datang di CallMeHotel
             </h1>
-            <p class="text-lg md:text-xl text-gray-300 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+            <p class="text-lg md:text-xl text-gray-800 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
                 Nikmati pengalaman menginap tak terlupakan dengan fasilitas terbaik dan pelayanan ramah dari kami.
             </p>
             <a href="{{ route('rooms.index') }}"
@@ -69,7 +69,7 @@
     </section>
 
     {{-- SECTION LAYANAN KAMI --}}
-    <section class="bg-gray-100 dark:bg-gray-900 py-12 md:py-16">
+    <section class="bg-gray-200 dark:bg-gray-900 py-12 md:py-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h3 class="text-3xl font-semibold text-gray-900 dark:text-gray-100 mb-8 md:mb-10 text-center">
                 Layanan Kami
@@ -178,7 +178,7 @@
     </section>
 
     {{-- SECTION BARU: TESTIMONI PELANGGAN (sesuai contoh gambar) --}}
-    <section class="py-12 md:py-16 bg-white dark:bg-gray-900 border-y dark:border-gray-700">
+    <section class="py-12 md:py-16 bg-gray-100 dark:bg-gray-900 border-y dark:border-gray-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h3 class="text-3xl font-semibold text-gray-900 dark:text-gray-100 mb-10 md:mb-12 text-center">
                 Apa Kata Mereka

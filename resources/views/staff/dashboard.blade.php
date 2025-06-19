@@ -32,7 +32,9 @@
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3">Nama Pemesan</th>
+                                    {{-- MODIFIKASI: Judul kolom diubah dan ditambah --}}
+                                    <th scope="col" class="px-6 py-3">Nama Akun</th>
+                                    <th scope="col" class="px-6 py-3">Atas Nama Reservasi</th>
                                     <th scope="col" class="px-6 py-3">Tipe Kamar</th>
                                     <th scope="col" class="px-6 py-3">Tanggal Pesan</th>
                                     <th scope="col" class="px-6 py-3">Status</th>
@@ -47,7 +49,12 @@
                                 @endphp
                                 @forelse($reservationsNeedingAction as $booking)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    {{-- Data Nama Akun (Tetap ada) --}}
                                     <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $booking->user->name ?? 'N/A' }}</td>
+
+                                    {{-- MODIFIKASI: Tambah kolom data booking_name --}}
+                                    <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $booking->booking_name }}</td>
+
                                     <td class="px-6 py-4">{{ $booking->room->type ?? 'N/A' }}</td>
                                     <td class="px-6 py-4">{{ $booking->created_at->format('d M Y, H:i') }}</td>
                                     <td class="px-6 py-4">
@@ -58,7 +65,8 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="4" class="px-6 py-4 text-center">Tidak ada reservasi yang perlu tindakan saat ini.</td>
+                                    {{-- MODIFIKASI: colspan diubah menjadi 5 --}}
+                                    <td colspan="5" class="px-6 py-4 text-center">Tidak ada reservasi yang perlu tindakan saat ini.</td>
                                 </tr>
                                 @endforelse
                             </tbody>

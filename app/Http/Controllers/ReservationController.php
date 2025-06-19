@@ -6,55 +6,45 @@ use App\Models\Room;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator; // Untuk validasi manual
-use Carbon\Carbon; // Untuk manipulasi tanggal
+use Illuminate\Support\Facades\Log; // <-- Ganti Validator dengan Log
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Gate; // <-- Tambahkan ini untuk otorisasi
 
 class ReservationController extends Controller
 {
     /**
      * Store a newly created reservation in storage.
      */
-    public function store(Request $request, Room $room) // $room akan otomatis di-inject oleh Laravel
+    public function store(Request $request, Room $room)
     {
         // 1. Validasi Input
-        $validator = Validator::make($request->all(), [
+        $validated = $request->validate([
+            'booking_name' => 'required|string|max:255',
             'check_in_date' => 'required|date|after_or_equal:today',
             'check_out_date' => 'required|date|after:check_in_date',
         ], [
+            'booking_name.required' => 'Nama pemesan wajib diisi.',
             'check_in_date.required' => 'Tanggal check-in wajib diisi.',
-            'check_in_date.date' => 'Format tanggal check-in tidak valid.',
             'check_in_date.after_or_equal' => 'Tanggal check-in tidak boleh sebelum hari ini.',
             'check_out_date.required' => 'Tanggal check-out wajib diisi.',
-            'check_out_date.date' => 'Format tanggal check-out tidak valid.',
             'check_out_date.after' => 'Tanggal check-out harus setelah tanggal check-in.',
         ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+        $checkInDate = Carbon::parse($validated['check_in_date']);
+        $checkOutDate = Carbon::parse($validated['check_out_date']);
 
-        $checkInDate = Carbon::parse($request->input('check_in_date'));
-        $checkOutDate = Carbon::parse($request->input('check_out_date'));
-
-        // 2. Pengecekan Ketersediaan Kamar (Logika Minimal - Pilihan A)
+        // 2. Pengecekan Ketersediaan Kamar
         $availableQuantity = $room->quantity;
-
-        // Hitung reservasi aktif yang tumpang tindih untuk tipe kamar ini
         $conflictingReservations = Reservation::where('room_id', $room->id)
-            ->whereIn('status', ['Pending', 'Menunggu Konfirmasi', 'Confirmed', 'Dikonfirmasi']) // Status yang dianggap "aktif"
+            ->whereIn('status', ['Pending', 'Confirmed']) // Status yang dianggap "aktif"
             ->where(function ($query) use ($checkInDate, $checkOutDate) {
                 $query->where(function ($q) use ($checkInDate, $checkOutDate) {
-                    // Reservasi dimulai di dalam periode yang diminta
                     $q->where('check_in_date', '>=', $checkInDate->toDateString())
                         ->where('check_in_date', '<', $checkOutDate->toDateString());
                 })->orWhere(function ($q) use ($checkInDate, $checkOutDate) {
-                    // Reservasi berakhir di dalam periode yang diminta
                     $q->where('check_out_date', '>', $checkInDate->toDateString())
                         ->where('check_out_date', '<=', $checkOutDate->toDateString());
                 })->orWhere(function ($q) use ($checkInDate, $checkOutDate) {
-                    // Reservasi mencakup seluruh periode yang diminta
                     $q->where('check_in_date', '<', $checkInDate->toDateString())
                         ->where('check_out_date', '>', $checkOutDate->toDateString());
                 });
@@ -67,39 +57,46 @@ class ReservationController extends Controller
                 ->withInput();
         }
 
-        // 3. Perhitungan Jumlah Malam & Total Harga
-        // Carbon::diffInDays akan menghitung selisih hari penuh.
-        // Gunakan diffInDays dengan parameter absolut true secara eksplisit
-        $numberOfNights = $checkOutDate->diffInDays($checkInDate, true);
-
-        // Kondisi if ini tetap baik sebagai pengaman,
-        // meskipun dengan abs=true dan validasi, $numberOfNights seharusnya > 0
-        if ($numberOfNights <= 0) { 
-            $numberOfNights = 1; // Minimal 1 malam
-        }
+        // 3. Perhitungan Jumlah Malam & Total Harga (Server-side)
+        $numberOfNights = abs($checkInDate->diffInDays($checkOutDate));
         $totalPrice = $room->price * $numberOfNights;
 
         // 4. Simpan Reservasi Baru
         try {
-            $reservation = new Reservation();
-            $reservation->user_id = Auth::id(); // ID pengguna yang sedang login
-            $reservation->room_id = $room->id;
-            $reservation->check_in_date = $checkInDate->toDateString();
-            $reservation->check_out_date = $checkOutDate->toDateString();
-            $reservation->total_nights = $numberOfNights;
-            $reservation->total_price = $totalPrice;
-            $reservation->status = 'Pending'; // Sesuai permintaan: "menunggu konfirmasi dari staff/admin"
-            $reservation->save();
+            $reservation = Reservation::create([
+                'user_id' => Auth::id(),
+                'booking_name' => $validated['booking_name'], // Simpan nama pemesan
+                'room_id' => $room->id,
+                'check_in_date' => $checkInDate->toDateString(),
+                'check_out_date' => $checkOutDate->toDateString(),
+                'total_nights' => $numberOfNights,
+                'total_price' => $totalPrice,
+                'status' => 'Pending',
+            ]);
 
-            // 5. Redirect Pengguna dengan Pesan Sukses
-            return redirect()->route('user.dashboard') // Atau ke halaman lain yang sesuai
-                ->with('success', 'Reservasi Anda untuk ' . $room->type . ' telah diterima dan sedang menunggu konfirmasi.');
+            // 5. Redirect ke Halaman Sukses dengan ID Reservasi
+            return redirect()->route('reservations.success', $reservation->id)
+                ->with('success', 'Permintaan reservasi Anda berhasil dikirim!');
         } catch (\Exception $e) {
-            // Tangani error jika gagal menyimpan ke database
-            \Log::error('Gagal menyimpan reservasi: ' . $e->getMessage()); // <-- HAPUS TANDA KOMENTAR
+            Log::error('Gagal menyimpan reservasi: ' . $e->getMessage());
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan saat memproses reservasi Anda. Silakan coba lagi.')
                 ->withInput();
         }
+    }
+
+    /**
+     * Menampilkan halaman sukses/bukti transaksi setelah reservasi dibuat.
+     */
+    public function success(Reservation $reservation)
+    {
+        // Pastikan hanya pengguna yang membuat reservasi yang bisa melihat halaman ini
+        if (Gate::denies('view', $reservation)) {
+            abort(403);
+        }
+
+        return view('reservations.success', [
+            'reservation' => $reservation
+        ]);
     }
 }

@@ -11,6 +11,7 @@ class Reservation extends Model
 
     protected $fillable = [
         'user_id',
+        'booking_name', // <-- TAMBAHKAN INI
         'room_id',
         'check_in_date',
         'check_out_date',

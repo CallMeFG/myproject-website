@@ -79,7 +79,9 @@
                             <thead class="bg-gray-50 dark:bg-gray-700/50">
                                 <tr>
                                     <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">ID</th>
-                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Nama Pemesan</th>
+                                    {{-- MODIFIKASI: Judul kolom diubah dan ditambah --}}
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Nama Akun</th>
+                                    <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Atas Nama Reservasi</th>
                                     <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Tipe Kamar</th>
                                     <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Check-in</th>
                                     <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Check-out</th>
@@ -92,7 +94,13 @@
                                 @forelse ($reservations as $reservation)
                                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/40">
                                     <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{{ $reservation->id }}</td>
+
+                                    {{-- Data Nama Akun (Tetap ada) --}}
                                     <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ $reservation->user ? $reservation->user->name : 'N/A' }}</td>
+
+                                    {{-- MODIFIKASI: Tambah kolom data booking_name --}}
+                                    <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ $reservation->booking_name }}</td>
+
                                     <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ $reservation->room ? $reservation->room->type : 'N/A' }}</td>
                                     <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ \Carbon\Carbon::parse($reservation->check_in_date)->format('d M Y') }}</td>
                                     <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ \Carbon\Carbon::parse($reservation->check_out_date)->format('d M Y') }}</td>
@@ -108,15 +116,11 @@
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-600 dark:text-gray-200">{{ $reservation->status }}</span>
                                         @endif
                                     </td>
-                                    {{-- MODIFIKASI KOLOM AKSI DIMULAI DI SINI --}}
                                     <td class="px-4 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex items-center space-x-2">
-                                            {{-- Link Detail untuk Staff --}}
                                             <a href="{{ route('staff.reservations.show', $reservation->id) }}" class="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 text-xs">
                                                 Detail
                                             </a>
-
-                                            {{-- Form untuk ubah status --}}
                                             <form action="{{ route('staff.reservations.updateStatus', $reservation->id) }}" method="POST" class="inline-flex items-center gap-x-1">
                                                 @csrf
                                                 @method('PATCH')
@@ -131,12 +135,11 @@
                                             </form>
                                         </div>
                                     </td>
-                                    {{-- AKHIR MODIFIKASI KOLOM AKSI --}}
                                 </tr>
                                 @empty
                                 <tr>
-                                    {{-- Pastikan colspan ini sesuai dengan jumlah header kolom Anda --}}
-                                    <td colspan="8" class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500 dark:text-gray-400">
+                                    {{-- MODIFIKASI: colspan diubah menjadi 9 --}}
+                                    <td colspan="9" class="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500 dark:text-gray-400">
                                         Belum ada data reservasi.
                                     </td>
                                 </tr>
